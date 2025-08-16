@@ -1,20 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Microsoft.Extensions.Logging;
-using Logger;
 
 Console.WriteLine("Hello, World!");
-Logger.Logger.Initialize("TestApp");
-ProgramA.Run();
-
-class ProgramA
-{
-    private static readonly ILogger _logger = Logger.Logger.CreateLogger<ProgramA>();
-
-    public static void Run()
-    {
-        _logger.LogInformation("Program A started.");
-    }
-}
-
-
+int screenHeight = 1080;
+int screenWidth = 1920;
+int numColumns = 100;
+int numRows = 100;
+int cellSize = 5;
+int LifeProbability = 30;
+GameOfLifeRule gameOfLife = new(numColumns, numRows, cellSize, LifeProbability);
