@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿/* Main class of our program */
 
 using Microsoft.Extensions.Logging;
 using Raylib_cs;

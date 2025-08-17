@@ -1,3 +1,5 @@
+/* A class to handle a grid of booleans */
+
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 

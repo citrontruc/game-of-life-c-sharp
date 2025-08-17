@@ -1,3 +1,5 @@
+/* Ruless to update our grid for the game of life */
+
 using Microsoft.Extensions.Logging;
 using Raylib_cs;
 using System.Numerics;
