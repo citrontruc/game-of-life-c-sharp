@@ -5,7 +5,7 @@ using Raylib_cs;
 using System.Numerics;
 using UI;
 
-class GameOfLifeRule : IDrawable
+public class GameOfLifeRule : IDrawable
 {
     private readonly ILogger _logger = Logger.CreateLogger<GameOfLifeRule>();
 
@@ -38,6 +38,8 @@ class GameOfLifeRule : IDrawable
         int interCount;
         bool interGridCellValue;
         bool[,] nextCells = (bool[,])gameOfLifeGrid.cells.Clone();
+        // In the game of life, we "resurrect" squares with three neighbors and "kill" cells with less than two neighbors or more than 3.
+        // We do operations on a clone of our grid in order to avoid modifications breaking our grid. 
         for (int interRows = 0; interRows < gameOfLifeGrid.rows; interRows++)
         {
             for (int interColumns = 0; interColumns < gameOfLifeGrid.columns; interColumns++)
@@ -66,6 +68,7 @@ class GameOfLifeRule : IDrawable
 
     public void Draw()
     {
+        // To be displaced in a renderer maybe.
         bool interCell;
         Vector2 cellPosition;
         for (int interRows = 0; interRows < gameOfLifeGrid.rows; interRows++)
