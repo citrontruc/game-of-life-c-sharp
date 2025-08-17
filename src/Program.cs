@@ -5,21 +5,29 @@ using Raylib_cs;
 class Program
 {
     // Display Information
-    static int screenHeight = 600;
-    static int screenWidth = 800;
-    static int TargetFPS = 60;
+    private static readonly int _screenHeight = 600;
+    private static readonly int _screenWidth = 800;
+    private static readonly int _targetFPS = 60;
 
     // Game Of Life Information
-    static int numColumns = 100;
-    static int numRows = 100;
-    static int cellSize = 5;
-    static int LifeProbability = 30;
-    static double UpdateTime = 0.1;
+    private static readonly int _numColumns = 100;
+    private static readonly int _numRows = 100;
+    private static readonly int _cellSize = 5;
+    private static readonly int _lifeProbability = 30;
+
+    // Update Information
+    private static double _updateTime = 0.1;
+    enum Status {
+        Pause,
+        Edit,
+        Run
+    };
+    private static Status _currentStatus = Status.Run;
 
     public static void Main()
     {
-        Raylib.InitWindow(screenWidth, screenHeight, "Game of Life");
-        
+        Raylib.InitWindow(_screenWidth, _screenHeight, "Game of Life");
+
         (GameOfLifeRule gameOfLife, Timer updateTimer) = Initialize();
         while (!Raylib.WindowShouldClose())
         {
@@ -31,19 +39,23 @@ class Program
 
     public static (GameOfLifeRule, Timer) Initialize()
     {
-        Raylib.SetTargetFPS(TargetFPS);
-        GameOfLifeRule gameOfLife = new(numColumns, numRows, cellSize, LifeProbability);
-        Timer updateTimer = new(UpdateTime);
+        Raylib.SetTargetFPS(_targetFPS);
+        GameOfLifeRule gameOfLife = new(_numColumns, _numRows, _cellSize, _lifeProbability);
+        Timer updateTimer = new(_updateTime);
         return (gameOfLife, updateTimer);
     }
 
     public static void Update(GameOfLifeRule gameOfLife, Timer updateTimer)
     {
-        bool updateFrame = updateTimer.Increment();
-        if (updateFrame)
+        if (_currentStatus == Status.Run)
         {
-            gameOfLife.Update();
+            bool updateFrame = updateTimer.Increment();
+            if (updateFrame)
+            {
+                gameOfLife.Update();
+            }
         }
+        
         // Get user input
         // Update GoL accordingly
     }

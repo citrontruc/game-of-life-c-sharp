@@ -9,17 +9,17 @@ public class Grid
     private readonly ILogger _logger = Logger.CreateLogger<Grid>();
 
     // Cell variables
-    public int cellSize { get; }
-    public int columns { get; }
-    public int rows { get; }
-    public bool[,] cells { get; private set; }
+    public int CellSize { get; }
+    public int Columns { get; }
+    public int Rows { get; }
+    public bool[,] Cells { get; private set; }
 
     public Grid(int columns, int rows, int cellSize)
     {
-        this.cellSize = cellSize;
-        this.columns = columns;
-        this.rows = rows;
-        this.cells = new bool[columns, rows];
+        CellSize = cellSize;
+        Columns = columns;
+        Rows = rows;
+        Cells = new bool[columns, rows];
         _logger.LogInformation($"Created a grid of dimensions {columns} * {rows} with cellSize {cellSize}.");
     }
 
@@ -27,8 +27,8 @@ public class Grid
     {
         if (column < 0) return false;
         if (row < 0) return false;
-        if (column >= columns) return false;
-        if (row >= rows) return false;
+        if (column >= Columns) return false;
+        if (row >= Rows) return false;
         return true;
     }
 
@@ -40,21 +40,21 @@ public class Grid
             return false;
         }
 
-        return cells[column, row];
+        return Cells[column, row];
     }
 
     public void SetCell(int column, int row, bool value)
     {
         if (CheckColumnRowValidity(column, row))
         {
-            cells[column, row] = value;
+            Cells[column, row] = value;
         }
         else
         {
             _logger.LogInformation($@"Tried to update value at column and row {column}, {row} 
-            But grid only has dimensions {columns}, {rows}.");
+            But grid only has dimensions {Columns}, {Rows}.");
             throw new IndexOutOfRangeException($@"Tried to update value at column and row {column}, {row} 
-            But grid only has dimensions {columns}, {rows}.");
+            But grid only has dimensions {Columns}, {Rows}.");
         }
     }
 
@@ -66,14 +66,14 @@ public class Grid
             throw new ArgumentException("Invalid input.");
         }
         Vector2 answerVector = new();
-        answerVector.X = column * cellSize;
-        answerVector.Y = row * cellSize;
+        answerVector.X = column * CellSize;
+        answerVector.Y = row * CellSize;
         return answerVector;
     }
     public (int, int) ToGrid(Vector2 position)
     {
-        int column = (int)(position.X / cellSize);
-        int row = (int)(position.Y / cellSize);
+        int column = (int)(position.X / CellSize);
+        int row = (int)(position.Y / CellSize);
         return (column, row);
     }
 
@@ -86,7 +86,7 @@ public class Grid
         {
             if (CheckColumnRowValidity(column + neighborOffsetX[i], row + neighborOffsetY[i]))
             {
-                answerList[i] = cells[column + neighborOffsetX[i], row + neighborOffsetY[i]];
+                answerList[i] = Cells[column + neighborOffsetX[i], row + neighborOffsetY[i]];
             }
             else
             {
@@ -114,6 +114,6 @@ public class Grid
     public void UpdateGrid(bool[,] nextCells)
     {
         _logger.LogInformation("Grid updated.");
-        cells = nextCells;
+        Cells = nextCells;
     }
 }
