@@ -2,7 +2,7 @@
 
 using Raylib_cs;
 
-public class KeyboardInputHandler
+public static class KeyboardInputHandler
 {
     public enum Key
     {
