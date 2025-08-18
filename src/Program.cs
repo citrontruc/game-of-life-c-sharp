@@ -23,7 +23,6 @@ class Program
     private static int _numIteration = 1;
     enum Status
     {
-        Pause,
         Edit,
         Run
     };
@@ -53,16 +52,17 @@ class Program
     public static void Update(GameOfLifeRule gameOfLife, Timer updateTimer)
     {
         Console.WriteLine(Raylib.GetMousePosition());
-        if (_currentStatus == Status.Run)
+        switch (_currentStatus)
         {
-            bool updateFrame = updateTimer.Increment();
-            if (updateFrame)
-            {
-                gameOfLife.Update();
-            }
-            _numIteration++;
+            case Status.Run:
+                bool updateFrame = updateTimer.Increment();
+                if (updateFrame)
+                {
+                    gameOfLife.Update();
+                }
+                _numIteration++;
+                break;
         }
-
         // Get user input
         // Update GoL accordingly
     }
@@ -84,7 +84,13 @@ class Program
         string textIteration = "Number of iterations: ";
         string numIteration = $"{_numIteration}";
         int textWidth = Raylib.MeasureText(numIteration, fontSize);
-        Raylib.DrawText(textIteration, _gridOffsetX, _gridOffsetY - fontSize, fontSize, Color.Red);
-        Raylib.DrawText(numIteration, _screenWidth - _gridOffsetX - textWidth, _gridOffsetY - fontSize, fontSize, Color.Red);
+        switch (_currentStatus)
+        {
+            case Status.Run:
+                Raylib.DrawText(textIteration, _gridOffsetX, _gridOffsetY - fontSize, fontSize, Color.Red);
+                Raylib.DrawText(numIteration, _screenWidth - _gridOffsetX - textWidth, _gridOffsetY - fontSize, fontSize, Color.Red);
+                break;
+        }
+        
     }
 }
