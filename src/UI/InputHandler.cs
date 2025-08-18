@@ -1,1 +1,0 @@
-/* An object to translate user inputs */
