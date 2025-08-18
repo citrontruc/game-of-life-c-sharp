@@ -1,4 +1,4 @@
-/* Ruless to update our grid for the game of life */
+/* Rules to update our grid for the game of life */
 
 using Microsoft.Extensions.Logging;
 using Raylib_cs;
@@ -13,12 +13,21 @@ public class GameOfLifeRule : IDrawable
     private static readonly int _randomSeed = 42;
     private Random _randomGenerator = new(_randomSeed);
 
+    // items to draw the game
+    private Color _gameColor = Color.White;
+    private EntityDrawer _entityDrawer = new();
+
     public GameOfLifeRule(int columns, int rows, int cellSize, int probability)
     {
         _logger.LogInformation("Initializing GameOfLife");
         _gameOfLifeGrid = new Grid(columns, rows, cellSize);
         Initialize(probability);
         _logger.LogInformation("Initialized GameOfLife");
+    }
+
+    public (int, int, int) GetGridDimension()
+    {
+        return (_gameOfLifeGrid.Columns, _gameOfLifeGrid.Rows, _gameOfLifeGrid.CellSize);
     }
 
     public void Initialize(int probability)
@@ -31,6 +40,12 @@ public class GameOfLifeRule : IDrawable
                 _gameOfLifeGrid.SetCell(interRows, interColumns, _randomGenerator.Next(101) < probability);
             }
         }
+    }
+
+    public void InvertCell(int column, int row)
+    {
+        bool cellValue = _gameOfLifeGrid.GetCell(column, row);
+        _gameOfLifeGrid.SetCell(column, row, !cellValue);
     }
 
     public void Update()
@@ -67,7 +82,7 @@ public class GameOfLifeRule : IDrawable
         _logger.LogInformation("Game of life updated.");
     }
 
-    public void Draw(int offsetX, int offsetY, Color color)
+    public void Draw(int offsetX, int offsetY)
     {
         // To be displaced in a renderer maybe.
         bool interCell;
@@ -80,7 +95,7 @@ public class GameOfLifeRule : IDrawable
                 if (interCell)
                 {
                     cellPosition = _gameOfLifeGrid.ToWorld(interRows, interColumns);
-                    Raylib.DrawRectangle((int)cellPosition.X + offsetX, (int)cellPosition.Y + offsetY, _gameOfLifeGrid.CellSize, _gameOfLifeGrid.CellSize, color);
+                    _entityDrawer.DrawRectangle((int)cellPosition.X + offsetX, (int)cellPosition.Y + offsetY, _gameOfLifeGrid.CellSize, _gameOfLifeGrid.CellSize, _gameColor);
                 }
             }
         }

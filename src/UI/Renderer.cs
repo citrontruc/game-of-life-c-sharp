@@ -4,6 +4,6 @@ namespace UI
 {
     public interface IDrawable
     {
-        void Draw(int offsetX, int offsetY, Raylib_cs.Color color);
+        void Draw(int offsetX, int offsetY);
     }
 }

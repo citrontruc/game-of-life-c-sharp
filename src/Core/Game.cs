@@ -1,10 +1,14 @@
 /* A class to launch a game. */
 
+using System.Numerics;
 using Raylib_cs;
 using UI;
 
 public class Game : IDrawable
 {
+    private Player _player;
+    private GameOfLifeRule _gameOfLife;
+
     // Update Information
     private static double _updateTime = 0.1;
     private Timer _updateTimer = new(_updateTime);
@@ -16,15 +20,18 @@ public class Game : IDrawable
     };
 
     private static Status _currentStatus = Status.Run;
-    private GameOfLifeRule _gameOfLife;
 
     public Game(int numColumns, int numRows, int cellSize, int LifeProbability)
     {
+        _player = new(cellSize);
         _gameOfLife = new(numColumns, numRows, cellSize, LifeProbability);
     }
 
     public void Update()
     {
+        (int columns, int rows, int cellSize) = _gameOfLife.GetGridDimension();
+        (bool input, bool pause) = _player.Update(columns, rows, cellSize);
+        _currentStatus = pause ? Status.Edit : Status.Run;
         switch (_currentStatus)
         {
             case Status.Run:
@@ -35,25 +42,36 @@ public class Game : IDrawable
                 }
                 _numIteration++;
                 break;
+            case Status.Edit:
+                if (input)
+                {
+                    Vector2 playerPosition = _player.GetPlayerPosition();
+                    _gameOfLife.InvertCell((int)playerPosition.X, (int)playerPosition.Y);
+                }
+
+                break;
         }
     }
 
-    public void Draw(int offsetX, int offsetY, Color color)
+    public void Draw(int offsetX, int offsetY)
     {
-        _gameOfLife.Draw(offsetX, offsetY, color);
+        _gameOfLife.Draw(offsetX, offsetY);
+        _player.Draw(offsetX, offsetY);
     }
 
-    public void DrawHud(int offsetX, int offsetY, int screeWitdth, int screenHeight)
+    public void DrawHud(int offsetX, int offsetY, int screenWitdth, int screenHeight)
     {
         int fontSize = 20;
         string textIteration = "Number of iterations: ";
         string numIteration = $"{_numIteration}";
         int textWidth = Raylib.MeasureText(numIteration, fontSize);
+        Raylib.DrawText(textIteration, offsetX, offsetY - fontSize, fontSize, Color.Red);
+        Raylib.DrawText(numIteration, screenWitdth - offsetX - textWidth, offsetY - fontSize, fontSize, Color.Red);
         switch (_currentStatus)
         {
             case Status.Run:
-                Raylib.DrawText(textIteration, offsetX, offsetY - fontSize, fontSize, Color.Red);
-                Raylib.DrawText(numIteration, screeWitdth - offsetX - textWidth, offsetY - fontSize, fontSize, Color.Red);
+                break;
+            case Status.Edit:
                 break;
         }
     }

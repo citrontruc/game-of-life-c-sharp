@@ -11,10 +11,10 @@ public class InputHandler
         userInput.RightClick = MouseInputHandler.isButtonReleased(MouseInputHandler.Button.Right);
 
         // Position key variables (hold and release)
-        userInput.RightHold = KeyboardInputHandler.Keyboard.IsKeyPressed(KeyboardInputHandler.Key.Right);
-        userInput.LeftHold = KeyboardInputHandler.Keyboard.IsKeyPressed(KeyboardInputHandler.Key.Left);
-        userInput.UpHold = KeyboardInputHandler.Keyboard.IsKeyPressed(KeyboardInputHandler.Key.Up);
-        userInput.DownHold = KeyboardInputHandler.Keyboard.IsKeyPressed(KeyboardInputHandler.Key.Down);
+        userInput.RightHold = KeyboardInputHandler.Keyboard.IsKeyDown(KeyboardInputHandler.Key.Right);
+        userInput.LeftHold = KeyboardInputHandler.Keyboard.IsKeyDown(KeyboardInputHandler.Key.Left);
+        userInput.UpHold = KeyboardInputHandler.Keyboard.IsKeyDown(KeyboardInputHandler.Key.Up);
+        userInput.DownHold = KeyboardInputHandler.Keyboard.IsKeyDown(KeyboardInputHandler.Key.Down);
 
         userInput.RightRelease = KeyboardInputHandler.Keyboard.IsKeyReleased(KeyboardInputHandler.Key.Right);
         userInput.LeftRelease = KeyboardInputHandler.Keyboard.IsKeyReleased(KeyboardInputHandler.Key.Left);
