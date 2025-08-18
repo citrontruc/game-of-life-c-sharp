@@ -4,10 +4,10 @@ using Raylib_cs;
 
 public class Timer
 {
-    public double time = 0;
-    private double timeMin = 0.1;
-    private double timeMax = 1.0;
-    private double timeLimit;
+    public double Time = 0;
+    private double _timeMin = 0.1;
+    private double _timeMax = 1.0;
+    private double _timeLimit;
 
     public Timer(double timeLimit)
     {
@@ -16,13 +16,13 @@ public class Timer
 
     public void setTimeLimit(double timeLimit)
     {
-        this.timeLimit = Math.Clamp(timeLimit, timeMin, timeMax);
+        this._timeLimit = Math.Clamp(timeLimit, _timeMin, _timeMax);
     }
 
     public bool Increment()
     {
-        time += Raylib.GetFrameTime();
-        if (time >= timeLimit)
+        Time += Raylib.GetFrameTime();
+        if (Time >= _timeLimit)
         {
             Reset();
             return true;
@@ -32,7 +32,7 @@ public class Timer
 
     public void Reset()
     {
-        time = 0;
+        Time = 0;
     }
 
 }

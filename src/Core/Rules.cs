@@ -9,25 +9,26 @@ public class GameOfLifeRule : IDrawable
 {
     private readonly ILogger _logger = Logger.CreateLogger<GameOfLifeRule>();
 
-    private Grid gameOfLifeGrid;
-    private static readonly int randomSeed = 42;
-    private Random randomGenerator = new(randomSeed);
+    private Grid _gameOfLifeGrid;
+    private static readonly int _randomSeed = 42;
+    private Random _randomGenerator = new(_randomSeed);
 
     public GameOfLifeRule(int columns, int rows, int cellSize, int probability)
     {
         _logger.LogInformation("Initializing GameOfLife");
-        gameOfLifeGrid = new Grid(columns, rows, cellSize);
+        _gameOfLifeGrid = new Grid(columns, rows, cellSize);
         Initialize(probability);
         _logger.LogInformation("Initialized GameOfLife");
     }
 
     public void Initialize(int probability)
     {
-        for (int interRows = 0; interRows < gameOfLifeGrid.rows; interRows++)
+        // Grid is initialized at random.
+        for (int interRows = 0; interRows < _gameOfLifeGrid.Rows; interRows++)
         {
-            for (int interColumns = 0; interColumns < gameOfLifeGrid.columns; interColumns++)
+            for (int interColumns = 0; interColumns < _gameOfLifeGrid.Columns; interColumns++)
             {
-                gameOfLifeGrid.SetCell(interRows, interColumns, randomGenerator.Next(101) < probability);
+                _gameOfLifeGrid.SetCell(interRows, interColumns, _randomGenerator.Next(101) < probability);
             }
         }
     }
@@ -37,15 +38,15 @@ public class GameOfLifeRule : IDrawable
         _logger.LogInformation("Updating game of life.");
         int interCount;
         bool interGridCellValue;
-        bool[,] nextCells = (bool[,])gameOfLifeGrid.cells.Clone();
+        bool[,] nextCells = (bool[,])_gameOfLifeGrid.Cells.Clone();
         // In the game of life, we "resurrect" squares with three neighbors and "kill" cells with less than two neighbors or more than 3.
         // We do operations on a clone of our grid in order to avoid modifications breaking our grid. 
-        for (int interRows = 0; interRows < gameOfLifeGrid.rows; interRows++)
+        for (int interRows = 0; interRows < _gameOfLifeGrid.Rows; interRows++)
         {
-            for (int interColumns = 0; interColumns < gameOfLifeGrid.columns; interColumns++)
+            for (int interColumns = 0; interColumns < _gameOfLifeGrid.Columns; interColumns++)
             {
-                interCount = gameOfLifeGrid.MooreNeighborhoodCount(interRows, interColumns);
-                interGridCellValue = gameOfLifeGrid.GetCell(interRows, interColumns);
+                interCount = _gameOfLifeGrid.MooreNeighborhoodCount(interRows, interColumns);
+                interGridCellValue = _gameOfLifeGrid.GetCell(interRows, interColumns);
                 if (interGridCellValue)
                 {
                     if (interCount < 2 || interCount > 3)
@@ -62,24 +63,24 @@ public class GameOfLifeRule : IDrawable
                 }
             }
         }
-        gameOfLifeGrid.UpdateGrid(nextCells);
+        _gameOfLifeGrid.UpdateGrid(nextCells);
         _logger.LogInformation("Game of life updated.");
     }
 
-    public void Draw()
+    public void Draw(int offsetX, int offsetY, Color color)
     {
         // To be displaced in a renderer maybe.
         bool interCell;
         Vector2 cellPosition;
-        for (int interRows = 0; interRows < gameOfLifeGrid.rows; interRows++)
+        for (int interRows = 0; interRows < _gameOfLifeGrid.Rows; interRows++)
         {
-            for (int interColumns = 0; interColumns < gameOfLifeGrid.columns; interColumns++)
+            for (int interColumns = 0; interColumns < _gameOfLifeGrid.Columns; interColumns++)
             {
-                interCell = gameOfLifeGrid.GetCell(interRows, interColumns);
+                interCell = _gameOfLifeGrid.GetCell(interRows, interColumns);
                 if (interCell)
                 {
-                    cellPosition = gameOfLifeGrid.ToWorld(interRows, interColumns);
-                    Raylib.DrawRectangle((int)cellPosition.X, (int)cellPosition.Y, gameOfLifeGrid.cellSize, gameOfLifeGrid.cellSize, Color.White);
+                    cellPosition = _gameOfLifeGrid.ToWorld(interRows, interColumns);
+                    Raylib.DrawRectangle((int)cellPosition.X + offsetX, (int)cellPosition.Y + offsetY, _gameOfLifeGrid.CellSize, _gameOfLifeGrid.CellSize, color);
                 }
             }
         }

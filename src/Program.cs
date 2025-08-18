@@ -5,62 +5,61 @@ using Raylib_cs;
 class Program
 {
     // Display Information
-    static int screenHeight = 600;
-    static int screenWidth = 800;
-    static int TargetFPS = 60;
+    private static readonly int _screenHeight = 600;
+    private static readonly int _screenWidth = 800;
+    private static readonly int _targetFPS = 60;
 
     // Game Of Life Information
-    static int numColumns = 100;
-    static int numRows = 100;
-    static int cellSize = 5;
-    static int LifeProbability = 30;
-    static double UpdateTime = 0.1;
+    private static readonly int _numColumns = 100;
+    private static readonly int _numRows = 100;
+    private static readonly int _cellSize = 5;
+    private static readonly int _lifeProbability = 30;
+
+    private static readonly int _gridOffsetX = (int)(_screenWidth - _numColumns * _cellSize) / 2;
+    private static readonly int _gridOffsetY = (int)(_screenHeight - _numRows * _cellSize) / 2;
+
+    public static Game? gameOfLife;
 
     public static void Main()
     {
-        Raylib.InitWindow(screenWidth, screenHeight, "Game of Life");
-        
-        (GameOfLifeRule gameOfLife, Timer updateTimer) = Initialize();
+        Raylib.InitWindow(_screenWidth, _screenHeight, "Game of Life");
+
+        gameOfLife = Initialize();
         while (!Raylib.WindowShouldClose())
         {
-            Update(gameOfLife, updateTimer);
+            Update(gameOfLife);
             Draw(gameOfLife);
         }
         Raylib.CloseWindow();
     }
 
-    public static (GameOfLifeRule, Timer) Initialize()
+    public static Game Initialize()
     {
-        Raylib.SetTargetFPS(TargetFPS);
-        GameOfLifeRule gameOfLife = new(numColumns, numRows, cellSize, LifeProbability);
-        Timer updateTimer = new(UpdateTime);
-        return (gameOfLife, updateTimer);
+        Raylib.SetTargetFPS(_targetFPS);
+        Game gameOfLife = new(_numColumns, _numRows, _cellSize, _lifeProbability);
+        return gameOfLife;
     }
 
-    public static void Update(GameOfLifeRule gameOfLife, Timer updateTimer)
+    public static void Update(Game gameOfLife)
     {
-        bool updateFrame = updateTimer.Increment();
-        if (updateFrame)
-        {
-            gameOfLife.Update();
-        }
+        gameOfLife.Update();
         // Get user input
         // Update GoL accordingly
     }
 
-    public static void Draw(GameOfLifeRule gameOfLife)
+    public static void Draw(Game gameOfLife)
     {
         Raylib.BeginDrawing();
         Raylib.ClearBackground(Color.Black);
-        gameOfLife.Draw();
-        // Mettre texte avec numItération
+        gameOfLife.Draw(_gridOffsetX, _gridOffsetY, Color.White);
+        DrawHud(gameOfLife);
         // Mettre texte sur l'état
-        // Dessiner GoL
 
         Raylib.EndDrawing();
     }
+
+    public static void DrawHud(Game gameOfLife)
+    {
+        gameOfLife.DrawHud(_gridOffsetX, _gridOffsetY, _screenWidth, _screenHeight);
+    }
 }
-
-
-
-
