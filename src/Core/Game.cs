@@ -1,8 +1,9 @@
 /* A class to launch a game. */
 
 using Raylib_cs;
+using UI;
 
-public class Game
+public class Game : IDrawable
 {
     private GameOfLifeRule _gameOfLife;
 
@@ -16,9 +17,9 @@ public class Game
         _gameOfLife.Update();
     }
 
-    public void Draw()
+    public void Draw(int offsetX, int offsetY, Color color)
     {
-        _gameOfLife.Draw();
+        _gameOfLife.Draw(offsetX, offsetY, color);
     }
 
 }

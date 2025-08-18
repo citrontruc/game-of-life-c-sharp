@@ -15,9 +15,14 @@ class Program
     private static readonly int _cellSize = 5;
     private static readonly int _lifeProbability = 30;
 
+    private static readonly int _gridOffsetX = (int)(_screenWidth - _numColumns * _cellSize) / 2;
+    private static readonly int _gridOffsetY = (int)(_screenHeight - _numRows * _cellSize) / 2;
+
     // Update Information
     private static double _updateTime = 0.1;
-    enum Status {
+    private static int _numIteration = 1;
+    enum Status
+    {
         Pause,
         Edit,
         Run
@@ -47,6 +52,7 @@ class Program
 
     public static void Update(GameOfLifeRule gameOfLife, Timer updateTimer)
     {
+        Console.WriteLine(Raylib.GetMousePosition());
         if (_currentStatus == Status.Run)
         {
             bool updateFrame = updateTimer.Increment();
@@ -54,8 +60,9 @@ class Program
             {
                 gameOfLife.Update();
             }
+            _numIteration++;
         }
-        
+
         // Get user input
         // Update GoL accordingly
     }
@@ -64,15 +71,20 @@ class Program
     {
         Raylib.BeginDrawing();
         Raylib.ClearBackground(Color.Black);
-        gameOfLife.Draw();
-        // Mettre texte avec numItération
+        gameOfLife.Draw(_gridOffsetX, _gridOffsetY, Color.White);
+        DrawHud();
         // Mettre texte sur l'état
-        // Dessiner GoL
 
         Raylib.EndDrawing();
     }
+
+    public static void DrawHud()
+    {
+        int fontSize = 20;
+        string textIteration = "Number of iterations: ";
+        string numIteration = $"{_numIteration}";
+        int textWidth = Raylib.MeasureText(numIteration, fontSize);
+        Raylib.DrawText(textIteration, _gridOffsetX, _gridOffsetY - fontSize, fontSize, Color.Red);
+        Raylib.DrawText(numIteration, _screenWidth - _gridOffsetX - textWidth, _gridOffsetY - fontSize, fontSize, Color.Red);
+    }
 }
-
-
-
-

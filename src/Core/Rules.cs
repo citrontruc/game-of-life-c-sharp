@@ -67,7 +67,7 @@ public class GameOfLifeRule : IDrawable
         _logger.LogInformation("Game of life updated.");
     }
 
-    public void Draw()
+    public void Draw(int offsetX, int offsetY, Color color)
     {
         // To be displaced in a renderer maybe.
         bool interCell;
@@ -80,7 +80,7 @@ public class GameOfLifeRule : IDrawable
                 if (interCell)
                 {
                     cellPosition = _gameOfLifeGrid.ToWorld(interRows, interColumns);
-                    Raylib.DrawRectangle((int)cellPosition.X, (int)cellPosition.Y, _gameOfLifeGrid.CellSize, _gameOfLifeGrid.CellSize, Color.White);
+                    Raylib.DrawRectangle((int)cellPosition.X + offsetX, (int)cellPosition.Y + offsetY, _gameOfLifeGrid.CellSize, _gameOfLifeGrid.CellSize, color);
                 }
             }
         }
