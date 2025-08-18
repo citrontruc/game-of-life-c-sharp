@@ -9,15 +9,16 @@ public class PlayerController
     private static readonly double _timeLimitInput = 0.3;
     private Timer _movementHoldTimer = new(_timeLimitInput);
     private bool _isMovingHold = false;
-    
+
     private void InterpretUserInput(UserInput userInput)
     {
-        
+        return;
     }
 
     public void GetUserAction()
     {
-        UserInput userInput = _inputHandler.GetUserInput(); 
+        UserInput userInput = _inputHandler.GetUserInput();
         InterpretUserInput(userInput);
+        return;
     }
 }
