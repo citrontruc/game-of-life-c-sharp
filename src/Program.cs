@@ -10,9 +10,9 @@ class Program
     private static readonly int _targetFPS = 60;
 
     // Game Of Life Information
-    private static readonly int _numColumns = 100;
-    private static readonly int _numRows = 100;
-    private static readonly int _cellSize = 5;
+    private static readonly int _numColumns = 50;
+    private static readonly int _numRows = 50;
+    private static readonly int _cellSize = 10;
     private static readonly int _lifeProbability = 30;
 
     private static readonly int _gridOffsetX = (int)(_screenWidth - _numColumns * _cellSize) / 2;

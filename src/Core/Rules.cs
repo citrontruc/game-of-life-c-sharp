@@ -21,6 +21,11 @@ public class GameOfLifeRule : IDrawable
         _logger.LogInformation("Initialized GameOfLife");
     }
 
+    public (int, int, int) GetGridDimension()
+    {
+        return (_gameOfLifeGrid.Columns, _gameOfLifeGrid.Rows, _gameOfLifeGrid.CellSize);
+    }
+
     public void Initialize(int probability)
     {
         // Grid is initialized at random.
