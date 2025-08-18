@@ -1,4 +1,4 @@
-/* Ruless to update our grid for the game of life */
+/* Rules to update our grid for the game of life */
 
 using Microsoft.Extensions.Logging;
 using Raylib_cs;
@@ -40,6 +40,12 @@ public class GameOfLifeRule : IDrawable
                 _gameOfLifeGrid.SetCell(interRows, interColumns, _randomGenerator.Next(101) < probability);
             }
         }
+    }
+
+    public void InvertCell(int column, int row)
+    {
+        bool cellValue = _gameOfLifeGrid.GetCell(column, row);
+        _gameOfLifeGrid.SetCell(column, row, !cellValue);
     }
 
     public void Update()

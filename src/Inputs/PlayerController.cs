@@ -37,10 +37,10 @@ public class PlayerController
         return (moveX, moveY);
     }
 
-    public (int, int) GetUserAction()
+    public (int, int, bool, bool) GetUserAction()
     {
         UserInput userInput = _inputHandler.GetUserInput();
         (int moveX, int moveY) = InterpretUserInput(userInput);
-        return (moveX, moveY);
+        return (moveX, moveY, userInput.Input, userInput.Pause);
     }
 }

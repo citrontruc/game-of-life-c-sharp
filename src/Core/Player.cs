@@ -10,7 +10,7 @@ public class Player : IDrawable
     private readonly PlayerController _playerController = new();
     private Vector2 _playerPosition = new(0, 0);
     private readonly int _playerSize;
-    private bool _active = true; 
+    public bool Pause = false;
 
     // Draw player
     private readonly EntityDrawer _entityDrawer = new();
@@ -24,11 +24,18 @@ public class Player : IDrawable
         _playerSize = playerSize;
     }
 
-    public void Update(int columns, int rows, int cellSize)
+    public Vector2 GetPlayerPosition()
     {
-        (int moveX, int moveY) = _playerController.GetUserAction();
+        return _playerPosition;
+    }
+
+    public (bool, bool) Update(int columns, int rows, int cellSize)
+    {
+        (int moveX, int moveY, bool input, bool pause) = _playerController.GetUserAction();
         _playerPosition.X = Math.Clamp(_playerPosition.X + moveX, 0, columns);
         _playerPosition.Y = Math.Clamp(_playerPosition.Y + moveY, 0, rows);
+        Pause = pause ? !Pause : Pause;
+        return (input, Pause);
     }
 
     public void Draw(int offsetX, int offsetY)

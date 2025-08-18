@@ -1,5 +1,6 @@
 /* A class to launch a game. */
 
+using System.Numerics;
 using Raylib_cs;
 using UI;
 
@@ -29,7 +30,8 @@ public class Game : IDrawable
     public void Update()
     {
         (int columns, int rows, int cellSize) = _gameOfLife.GetGridDimension();
-        _player.Update(columns, rows, cellSize);
+        (bool input, bool pause) = _player.Update(columns, rows, cellSize);
+        _currentStatus = pause ? Status.Edit : Status.Run;
         switch (_currentStatus)
         {
             case Status.Run:
@@ -41,6 +43,12 @@ public class Game : IDrawable
                 _numIteration++;
                 break;
             case Status.Edit:
+                if (input)
+                {
+                    Vector2 playerPosition = _player.GetPlayerPosition();
+                    _gameOfLife.InvertCell((int)playerPosition.X, (int)playerPosition.Y);
+                }
+
                 break;
         }
     }
