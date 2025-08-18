@@ -51,7 +51,7 @@ class Program
     {
         Raylib.BeginDrawing();
         Raylib.ClearBackground(Color.Black);
-        gameOfLife.Draw(_gridOffsetX, _gridOffsetY, Color.White);
+        gameOfLife.Draw(_gridOffsetX, _gridOffsetY);
         DrawHud(gameOfLife);
         // Mettre texte sur l'état
 

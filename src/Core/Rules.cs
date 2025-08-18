@@ -13,6 +13,10 @@ public class GameOfLifeRule : IDrawable
     private static readonly int _randomSeed = 42;
     private Random _randomGenerator = new(_randomSeed);
 
+    // items to draw the game
+    private Color _gameColor = Color.White;
+    private EntityDrawer _entityDrawer = new();
+
     public GameOfLifeRule(int columns, int rows, int cellSize, int probability)
     {
         _logger.LogInformation("Initializing GameOfLife");
@@ -72,7 +76,7 @@ public class GameOfLifeRule : IDrawable
         _logger.LogInformation("Game of life updated.");
     }
 
-    public void Draw(int offsetX, int offsetY, Color color)
+    public void Draw(int offsetX, int offsetY)
     {
         // To be displaced in a renderer maybe.
         bool interCell;
@@ -85,7 +89,7 @@ public class GameOfLifeRule : IDrawable
                 if (interCell)
                 {
                     cellPosition = _gameOfLifeGrid.ToWorld(interRows, interColumns);
-                    Raylib.DrawRectangle((int)cellPosition.X + offsetX, (int)cellPosition.Y + offsetY, _gameOfLifeGrid.CellSize, _gameOfLifeGrid.CellSize, color);
+                    _entityDrawer.DrawRectangle((int)cellPosition.X + offsetX, (int)cellPosition.Y + offsetY, _gameOfLifeGrid.CellSize, _gameOfLifeGrid.CellSize, _gameColor);
                 }
             }
         }

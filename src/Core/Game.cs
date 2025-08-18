@@ -45,20 +45,20 @@ public class Game : IDrawable
         }
     }
 
-    public void Draw(int offsetX, int offsetY, Color color)
+    public void Draw(int offsetX, int offsetY)
     {
-        _gameOfLife.Draw(offsetX, offsetY, color);
+        _gameOfLife.Draw(offsetX, offsetY);
         _player.Draw(offsetX, offsetY);
     }
 
-    public void DrawHud(int offsetX, int offsetY, int screeWitdth, int screenHeight)
+    public void DrawHud(int offsetX, int offsetY, int screenWitdth, int screenHeight)
     {
         int fontSize = 20;
         string textIteration = "Number of iterations: ";
         string numIteration = $"{_numIteration}";
         int textWidth = Raylib.MeasureText(numIteration, fontSize);
         Raylib.DrawText(textIteration, offsetX, offsetY - fontSize, fontSize, Color.Red);
-        Raylib.DrawText(numIteration, screeWitdth - offsetX - textWidth, offsetY - fontSize, fontSize, Color.Red);
+        Raylib.DrawText(numIteration, screenWitdth - offsetX - textWidth, offsetY - fontSize, fontSize, Color.Red);
         switch (_currentStatus)
         {
             case Status.Run:
