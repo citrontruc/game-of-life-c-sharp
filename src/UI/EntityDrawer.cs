@@ -1,3 +1,6 @@
+/* A class to draw our entities on screen
+As of now, it only draws Squares.*/
+
 using Raylib_cs;
 
 public class EntityDrawer

@@ -1,3 +1,5 @@
+/* An object to get inputs from the mouse */
+
 using System.Numerics;
 using Raylib_cs;
 

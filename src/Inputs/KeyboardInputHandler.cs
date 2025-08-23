@@ -1,4 +1,4 @@
-/* An object to get all user inputs */
+/* An object to get all keyboard inputs */
 
 using Raylib_cs;
 

@@ -1,4 +1,4 @@
-/* A class to launch a game. */
+/* A class to handle the creation and updates of Conway's game of life. */
 
 using System.Numerics;
 using Raylib_cs;
