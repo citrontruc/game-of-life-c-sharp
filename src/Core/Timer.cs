@@ -1,4 +1,4 @@
-/* A timer to associate to an action */
+/* A timer to associate to an action as if a cooldown. */
 
 using Raylib_cs;
 

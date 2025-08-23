@@ -1,4 +1,4 @@
-/* A class to draw the items on screen. */
+/* An interface to draw the items on screen. */
 
 namespace UI
 {

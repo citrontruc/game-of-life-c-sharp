@@ -1,4 +1,4 @@
-/* Player entity */
+/* Player entity. */
 
 using System.Numerics;
 using Raylib_cs;
