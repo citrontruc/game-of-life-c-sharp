@@ -42,9 +42,7 @@ class Program
 
     public static void Update(Game gameOfLife)
     {
-        gameOfLife.Update();
-        // Get user input
-        // Update GoL accordingly
+        gameOfLife.Update(_gridOffsetX, _gridOffsetY);
     }
 
     public static void Draw(Game gameOfLife)
@@ -53,8 +51,6 @@ class Program
         Raylib.ClearBackground(Color.Black);
         gameOfLife.Draw(_gridOffsetX, _gridOffsetY);
         DrawHud(gameOfLife);
-        // Mettre texte sur l'état
-
         Raylib.EndDrawing();
     }
 

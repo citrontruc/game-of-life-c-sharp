@@ -29,13 +29,13 @@ public class Player : IDrawable
         return _playerPosition;
     }
 
-    public (bool, bool) Update(int columns, int rows, int cellSize)
+    public (bool, bool, Vector2, bool) Update(int columns, int rows, int cellSize)
     {
-        (int moveX, int moveY, bool input, bool pause) = _playerController.GetUserAction();
+        (int moveX, int moveY, bool input, bool pause, Vector2 mousePosition, bool leftClick) = _playerController.GetUserAction();
         _playerPosition.X = Math.Clamp(_playerPosition.X + moveX, 0, columns);
         _playerPosition.Y = Math.Clamp(_playerPosition.Y + moveY, 0, rows);
         Pause = pause ? !Pause : Pause;
-        return (input, Pause);
+        return (input, Pause, mousePosition, leftClick);
     }
 
     public void Draw(int offsetX, int offsetY)

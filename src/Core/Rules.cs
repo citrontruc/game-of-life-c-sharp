@@ -30,6 +30,11 @@ public class GameOfLifeRule : IDrawable
         return (_gameOfLifeGrid.Columns, _gameOfLifeGrid.Rows, _gameOfLifeGrid.CellSize);
     }
 
+    public bool CheckIfInGrid(Vector2 mousePosition)
+    {
+        return _gameOfLifeGrid.CheckIfInGrid(mousePosition);
+    }
+
     public void Initialize(int probability)
     {
         // Grid is initialized at random.
@@ -40,6 +45,13 @@ public class GameOfLifeRule : IDrawable
                 _gameOfLifeGrid.SetCell(interRows, interColumns, _randomGenerator.Next(101) < probability);
             }
         }
+    }
+
+    public void InvertCell(Vector2 mousePosition)
+    {
+        (int column, int row) = _gameOfLifeGrid.ToGrid(mousePosition);
+        bool cellValue = _gameOfLifeGrid.GetCell(column, row);
+        _gameOfLifeGrid.SetCell(column, row, !cellValue);
     }
 
     public void InvertCell(int column, int row)

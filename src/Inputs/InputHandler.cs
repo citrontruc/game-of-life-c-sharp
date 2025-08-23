@@ -7,8 +7,8 @@ public class InputHandler
         UserInput userInput = new();
         // Mouse variables
         userInput.MousePosition = MouseInputHandler.position;
-        userInput.LeftClick = MouseInputHandler.isButtonReleased(MouseInputHandler.Button.Left);
-        userInput.RightClick = MouseInputHandler.isButtonReleased(MouseInputHandler.Button.Right);
+        userInput.LeftClick = MouseInputHandler.isButtonPressed(MouseInputHandler.Button.Left);
+        userInput.RightClick = MouseInputHandler.isButtonPressed(MouseInputHandler.Button.Right);
 
         // Position key variables (hold and release)
         userInput.RightHold = KeyboardInputHandler.Keyboard.IsKeyDown(KeyboardInputHandler.Key.Right);
