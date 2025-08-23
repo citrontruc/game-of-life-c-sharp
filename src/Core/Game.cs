@@ -27,10 +27,10 @@ public class Game : IDrawable
         _gameOfLife = new(numColumns, numRows, cellSize, LifeProbability);
     }
 
-    public void Update()
+    public void Update(int offsetX, int offsetY)
     {
         (int columns, int rows, int cellSize) = _gameOfLife.GetGridDimension();
-        (bool input, bool pause) = _player.Update(columns, rows, cellSize);
+        (bool input, bool pause, Vector2 mousePosition, bool leftClick) = _player.Update(columns, rows, cellSize);
         _currentStatus = pause ? Status.Edit : Status.Run;
         switch (_currentStatus)
         {
@@ -47,6 +47,16 @@ public class Game : IDrawable
                 {
                     Vector2 playerPosition = _player.GetPlayerPosition();
                     _gameOfLife.InvertCell((int)playerPosition.X, (int)playerPosition.Y);
+                }
+                if (leftClick)
+                    {
+                        float mouseXNoOffset = mousePosition.X - offsetX;
+                        float mouseYNoOffset = mousePosition.Y - offsetY;
+                        Vector2 mousePositionCorrected = new(mouseXNoOffset, mouseYNoOffset);
+                        if (_gameOfLife.CheckIfInGrid(mousePositionCorrected))
+                        {
+                            _gameOfLife.InvertCell(mousePositionCorrected);
+                        }
                 }
 
                 break;

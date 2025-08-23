@@ -6,7 +6,7 @@ public class PlayerController
 {
     private readonly InputHandler _inputHandler = new();
     private bool _isMovingHold = false;
-    private static readonly double _timeLimitInput = 0.1;
+    private static readonly double _timeLimitInput = 0.3;
     private Timer _movementHoldTimer = new(_timeLimitInput);
 
     private (int, int) InterpretUserInput(UserInput userInput)
@@ -23,6 +23,10 @@ public class PlayerController
                 _isMovingHold = true;
             }
         }
+        else
+        {
+            _movementHoldTimer.Reset();
+        }
         if (_isMovingHold)
         {
             moveX = (userInput.RightHold ? 1 : 0) - (userInput.LeftHold ? 1 : 0);
@@ -37,10 +41,10 @@ public class PlayerController
         return (moveX, moveY);
     }
 
-    public (int, int, bool, bool) GetUserAction()
+    public (int, int, bool, bool, Vector2, bool) GetUserAction()
     {
         UserInput userInput = _inputHandler.GetUserInput();
         (int moveX, int moveY) = InterpretUserInput(userInput);
-        return (moveX, moveY, userInput.Input, userInput.Pause);
+        return (moveX, moveY, userInput.Input, userInput.Pause, userInput.MousePosition, userInput.LeftClick);
     }
 }
