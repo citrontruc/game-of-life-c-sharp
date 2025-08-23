@@ -23,6 +23,19 @@ public class Grid
         _logger.LogInformation($"Created a grid of dimensions {columns} * {rows} with cellSize {cellSize}.");
     }
 
+    public bool CheckIfInGrid(Vector2 vectorPosition)
+    {
+        if (
+            vectorPosition.X > 0 &&
+            vectorPosition.X < Columns * CellSize &&
+            vectorPosition.Y > 0 &&
+            vectorPosition.Y < Rows * CellSize
+         ) {
+            return true;
+        }
+        return false;
+    }
+
     private bool CheckColumnRowValidity(int column, int row)
     {
         if (column < 0) return false;
